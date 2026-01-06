@@ -49,7 +49,12 @@ st.markdown("""
 # IMPORTANT: Replace the key below with your actual Groq API Key
 # Replace the old client line with this secure one:
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-reader = easyocr.Reader(['en'], gpu=False) 
+# This keeps the "Eyes" in memory without reloading them
+@st.cache_resource
+def load_reader():
+    return easyocr.Reader(['en'], gpu=False)
+
+reader = load_reader()
 
 # --- 4. INTERFACE ---
 st.title("📂 Lyro Docs")
@@ -58,9 +63,19 @@ st.write("Professional Data Extraction System")
 # Document Upload
 uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png"])
 
-if uploaded_file:
+if uploaded_file is not None:
+    # 1. Open the image
     image = Image.open(uploaded_file)
-    st.image(image, use_container_width=True)
+    
+    # 2. SHRINK THE IMAGE (The Crash Fix)
+    # If the photo is wider than 1000px, we scale it down
+    if image.width > 1000:
+        scale_factor = 1000 / image.width
+        new_size = (int(image.width * scale_factor), int(image.height * scale_factor))
+        image = image.resize(new_size)
+    
+    # 3. Display the optimized image
+    st.image(image, caption="Optimizing for Lyro Docs Analysis...", use_container_width=True)
     
     # Action Button
     if st.button("EXECUTE ANALYSIS"):
@@ -96,3 +111,4 @@ if uploaded_file:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
