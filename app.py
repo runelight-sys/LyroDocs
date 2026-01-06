@@ -49,7 +49,7 @@ st.markdown("""
 # IMPORTANT: Replace the key below with your actual Groq API Key
 # Replace the old client line with this secure one:
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-reader = easyocr.Reader(['en']) 
+reader = easyocr.Reader(['en'], gpu=False) 
 
 # --- 4. INTERFACE ---
 st.title("📂 Lyro Docs")
@@ -94,4 +94,5 @@ if uploaded_file:
                 st.markdown(analysis)
                 
             except Exception as e:
+
                 st.error("API Key missing or invalid. Please check your Groq console.")
