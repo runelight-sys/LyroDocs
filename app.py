@@ -50,9 +50,8 @@ client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 @st.cache_resource
 def load_reader():
-    # Adding 'model_storage_dir' can sometimes help with permission issues on Cloud
-    return easyocr.Reader(['en'], gpu=False, model_storage_dir='.')
-
+    # We remove the custom directory to let Streamlit handle it automatically
+    return easyocr.Reader(['en'], gpu=False)
 # Wrap this in a spinner so we can see progress on the ACTUAL UI
 try:
     reader = load_reader()
@@ -114,6 +113,7 @@ if uploaded_file is not None:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
