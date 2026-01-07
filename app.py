@@ -50,13 +50,17 @@ client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 @st.cache_resource
 def load_reader():
-    # We remove the custom directory to let Streamlit handle it automatically
-    return easyocr.Reader(['en'], gpu=False)
-# Wrap this in a spinner so we can see progress on the ACTUAL UI
-try:
-    reader = load_reader()
-except Exception as e:
-    st.error("The 'Eyes' (EasyOCR) failed to load. Please reboot.")
+    try:
+        # This will download the models once and then stay in memory
+        return easyocr.Reader(['en'], gpu=False)
+    except Exception:
+        return None
+
+reader = load_reader()
+
+if reader is None:
+    st.warning("Lyro is still warming up its 'Eyes.' Please wait 30 seconds and refresh.")
+    st.stop() # This prevents the rest of the app from crashing
 
 # --- 4. INTERFACE ---
 st.title("📂 Lyro Docs")
@@ -123,6 +127,7 @@ if uploaded_file is not None:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
