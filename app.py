@@ -7,12 +7,7 @@ import streamlit as st
 import easyocr
 # ... other imports ...
 
-# --- BRANDING SECTION ---
-# This puts the logo inside the app at the top
-st.image("logo.png", width=200) 
-
-st.title("Lyro Docs")
-st.write("---") # This adds a clean line under your logo
+ # This adds a clean line under your logo
 # --- LOGO AND TITLE SECTION ---
 col1, col2, col3 = st.columns([1, 2, 1]) # Creates 3 columns
 
@@ -145,6 +140,7 @@ if uploaded_file is not None:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
