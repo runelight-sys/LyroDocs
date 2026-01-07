@@ -46,15 +46,18 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- 3. INITIALIZE ENGINES ---
-# IMPORTANT: Replace the key below with your actual Groq API Key
-# Replace the old client line with this secure one:
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-# This keeps the "Eyes" in memory without reloading them
+
 @st.cache_resource
 def load_reader():
-    return easyocr.Reader(['en'], gpu=False)
+    # Adding 'model_storage_dir' can sometimes help with permission issues on Cloud
+    return easyocr.Reader(['en'], gpu=False, model_storage_dir='.')
 
-reader = load_reader()
+# Wrap this in a spinner so we can see progress on the ACTUAL UI
+try:
+    reader = load_reader()
+except Exception as e:
+    st.error("The 'Eyes' (EasyOCR) failed to load. Please reboot.")
 
 # --- 4. INTERFACE ---
 st.title("📂 Lyro Docs")
@@ -111,6 +114,7 @@ if uploaded_file is not None:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
