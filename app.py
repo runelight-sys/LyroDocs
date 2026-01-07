@@ -3,6 +3,17 @@ import easyocr
 from PIL import Image
 import numpy as np
 from groq import Groq
+import streamlit as st
+# ... other imports ...
+
+# 1. SET THE BROWSER TAB LOGO
+st.set_page_config(page_title="Lyro Docs", page_icon="logo.png")
+
+# 2. DISPLAY THE LOGO AT THE TOP OF THE APP
+st.image("logo.png", width=200)
+
+# 3. YOUR TITLE
+st.title("Lyro Docs")
 
 # --- 1. PAGE CONFIGURATION (Must be first) ---
 st.set_page_config(page_title="Lyro Docs", layout="centered")
@@ -127,6 +138,7 @@ if uploaded_file is not None:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
