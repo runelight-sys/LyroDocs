@@ -64,7 +64,7 @@ st.title("📂 Lyro Docs")
 st.write("Professional Data Extraction System")
 
 # Document Upload
-uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Upload Document", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
  
 if uploaded_file is not None:
     # 1. Open the image
@@ -114,6 +114,7 @@ if uploaded_file is not None:
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
