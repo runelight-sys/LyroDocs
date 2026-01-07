@@ -4,16 +4,23 @@ from PIL import Image
 import numpy as np
 from groq import Groq
 import streamlit as st
+import easyocr
 # ... other imports ...
 
-# 1. SET THE BROWSER TAB LOGO
-st.set_page_config(page_title="Lyro Docs", page_icon="logo.png")
+# --- BRANDING SECTION ---
+# This puts the logo inside the app at the top
+st.image("logo.png", width=200) 
 
-# 2. DISPLAY THE LOGO AT THE TOP OF THE APP
-st.image("logo.png", width=200)
-
-# 3. YOUR TITLE
 st.title("Lyro Docs")
+st.write("---") # This adds a clean line under your logo
+# --- LOGO AND TITLE SECTION ---
+col1, col2, col3 = st.columns([1, 2, 1]) # Creates 3 columns
+
+with col2: # This puts the content in the middle column
+    st.image("logo.png", use_container_width=True)
+    st.title("Lyro Docs")
+
+st.write("---") # Adds a professional separator line
 
 # --- 1. PAGE CONFIGURATION (Must be first) ---
 st.set_page_config(page_title="Lyro Docs", layout="centered")
