@@ -110,9 +110,20 @@ if uploaded_file is not None:
                 st.subheader("Lyro Analysis Report")
                 st.markdown(analysis)
                 
+                # These lines below must be pushed in (indented) exactly like the ones above
+                st.download_button(
+                    label="📥 DOWNLOAD REPORT AS TEXT",
+                    data=analysis,
+                    file_name="lyro_analysis_report.txt",
+                    mime="text/plain"
+                )
+                
+                
+                
             except Exception as e:
 
                 st.error("API Key missing or invalid. Please check your Groq console.")
+
 
 
 
